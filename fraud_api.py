@@ -7,9 +7,8 @@ import pandas as pd
 app = FastAPI(title="AI Fraud Risk Prediction API")
 
 # Load the retrained model
-model = joblib.load("/content/fraud_risk_model_v2.pkl")
-features = joblib.load("/content/fraud_model_features_v2.pkl")
-
+model = joblib.load("fraud_risk_model_v2_compressed.pkl")
+features = joblib.load("fraud_model_features_v2.pkl")
 
 class FraudInput(BaseModel):
 
