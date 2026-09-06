@@ -1,14 +1,25 @@
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
 
 app = FastAPI(title="AI Fraud Risk Prediction API")
 
+# Allow requests from all origins
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Load the retrained model
 model = joblib.load("fraud_risk_model_v2_compressed.pkl")
 features = joblib.load("fraud_model_features_v2.pkl")
+
 
 class FraudInput(BaseModel):
 
@@ -42,7 +53,9 @@ class FraudInput(BaseModel):
 
 @app.get("/")
 def home():
-    return {"message": "AI Fraud Risk Prediction API is running"}
+    return {
+        "message": "AI Fraud Risk Prediction API is running"
+    }
 
 
 @app.post("/predict")
